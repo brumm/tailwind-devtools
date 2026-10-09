@@ -105,6 +105,7 @@ function renderClasses() {
 
   $('#classTitle').textContent = 'Classes';
   $('.twisty-head .twisty').classList.toggle('open', ui.classesOpen);
+  $('#classes .section-head').classList.toggle('open', ui.classesOpen);
   $('#classBody').hidden = !ui.classesOpen;
   $('#classSort').textContent = ui.classSort === 'az' ? 'A–Z' : 'Order';
 
@@ -150,8 +151,8 @@ function ruleBlock(title, entries) {
 }
 
 function sectionHead(title, open, toggle) {
-  return h('div', { class: 'section-head' },
-    h('button', { class: 'twisty-head', onclick: toggle }, h('span', { class: 'twisty' + (open ? ' open' : '') }), title));
+  return h('div', { class: 'section-head' + (open ? ' open' : ''), onclick: toggle },
+    h('button', { class: 'twisty-head' }, h('span', { class: 'twisty' + (open ? ' open' : '') }), title));
 }
 
 function renderStyles() {
@@ -279,32 +280,44 @@ $('#hideVars').addEventListener('click', () => {
   $('#hideVars').setAttribute('aria-pressed', ui.hideVars);
   render();
 });
-$('#classToggle').addEventListener('click', () => {
+$('#classes .section-head').addEventListener('click', (ev) => {
+  if (ev.target.closest('#classSort')) return;
   ui.classesOpen = !ui.classesOpen;
   store.set('classesOpen', ui.classesOpen);
   render();
 });
 $('#hideVars').setAttribute('aria-pressed', ui.hideVars);
 
-// Hovering a style row (or a class) highlights everything from the same class and dims the rest.
+// Shift + hovering a style row (or a class) highlights everything from the same class and dims the rest.
 function setFocus(match) {
   document.body.classList.toggle('focus', !!match);
   for (const r of document.querySelectorAll('.prop')) r.classList.toggle('hl', !!match && r.dataset.src != null && match.row(r.dataset.src));
   for (const c of document.querySelectorAll('.cls')) c.classList.toggle('hl', !!match && match.cls(c.dataset.name));
 }
-$('#styles').addEventListener('mouseover', (ev) => {
-  const row = ev.target.closest('.prop[data-src]');
-  if (!row) return setFocus(null);
-  const src = row.dataset.src, names = src.split(' ');
-  setFocus({ row: (s) => s === src, cls: (n) => names.includes(n) });
-});
-$('#classGrid').addEventListener('mouseover', (ev) => {
-  const c = ev.target.closest('.cls');
-  if (!c) return setFocus(null);
-  const name = c.dataset.name;
-  setFocus({ row: (s) => s.split(' ').includes(name), cls: (n) => n === name });
-});
-for (const el of [$('#styles'), $('#classGrid')]) el.addEventListener('mouseleave', () => setFocus(null));
+// Focus only while Shift is held. Mouse events carry the modifier state even when the pane
+// itself has no keyboard focus; key events cover pressing/releasing Shift without moving.
+let hovered = null;
+function updateFocus(shift) {
+  if (!shift || !hovered) return setFocus(null);
+  const row = hovered.closest('#styles .prop[data-src]');
+  if (row) {
+    const src = row.dataset.src, names = src.split(' ');
+    return setFocus({ row: (s) => s === src, cls: (n) => names.includes(n) });
+  }
+  const c = hovered.closest('#classGrid .cls');
+  if (c) {
+    const name = c.dataset.name;
+    return setFocus({ row: (s) => s.split(' ').includes(name), cls: (n) => n === name });
+  }
+  setFocus(null);
+}
+for (const type of ['mouseover', 'mousemove']) {
+  document.addEventListener(type, (ev) => { hovered = ev.target; updateFocus(ev.shiftKey); });
+}
+document.addEventListener('mouseleave', () => { hovered = null; updateFocus(false); });
+window.addEventListener('keydown', (ev) => { if (ev.key === 'Shift') updateFocus(true); });
+window.addEventListener('keyup', (ev) => { if (ev.key === 'Shift') updateFocus(false); });
+window.addEventListener('blur', () => updateFocus(false));
 
 // ---------- lifecycle ----------
 window.twShown = (v) => { visible = v; if (v) refresh(true); };

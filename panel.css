@@ -52,10 +52,12 @@ input[type="checkbox"] { accent-color: var(--accent); margin: 0; padding: 0; }
 .section-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 2px 6px; background: var(--bg-bar);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border); cursor: pointer; user-select: none;
 }
-#classes .section-head { border-top: 0; border-bottom: 1px solid var(--border); }
-.twisty-head { display: flex; align-items: center; gap: 4px; font-weight: 600; }
+.section-head.open { border-bottom: 1px solid var(--border); }
+.section-head:hover { background-image: linear-gradient(var(--bg-hover), var(--bg-hover)); }
+#classes .section-head { border-top: 0; }  /* the toolbar above already has a border */
+.twisty-head { display: flex; align-items: center; gap: 4px; font-weight: 600; cursor: pointer; }
 .twisty::before { content: "\25B8"; display: inline-block; width: 10px; color: var(--fg-dim); }
 .twisty.open::before { content: "\25BE"; }
 
