@@ -98,7 +98,7 @@ input[type="checkbox"] { accent-color: var(--accent); margin: 0; padding: 0; }
 .prop:hover, .prop.hl { background: var(--bg-hover); }
 .prop input { position: absolute; left: 6px; top: 3px; width: 11px; height: 11px; opacity: 0; }
 .prop:hover input, .prop.disabled input { opacity: 1; }
-.prop .decl { overflow-wrap: anywhere; }
+.prop .decl { display: block; padding-left: 2ch; text-indent: -2ch; overflow-wrap: anywhere; } /* hanging indent for wrapped values */
 .name { color: var(--name); }
 .value { color: var(--value); }
 .value .var { text-decoration: underline dotted; text-underline-offset: 2px; }

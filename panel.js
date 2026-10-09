@@ -109,8 +109,10 @@ function renderClasses() {
   $('#classSort').textContent = ui.classSort === 'az' ? 'A–Z' : 'Order';
 
   const grid = $('#classGrid');
-  const maxLen = Math.min(44, list.reduce((n, c) => Math.max(n, c.name.length), 8));
-  grid.style.setProperty('--col', maxLen + 'ch');
+  // size columns for a typical class, not the longest one; outliers are ellipsized (full name on hover)
+  const lens = list.map((c) => c.name.length).sort((a, b) => a - b);
+  const typical = lens.length ? lens[Math.floor((lens.length - 1) * 0.7)] : 12;
+  grid.style.setProperty('--col', Math.max(12, Math.min(26, typical)) + 'ch');
   grid.replaceChildren(...list.map((c) => {
     const [variant, rest] = splitVariant(c.name);
     return h('div', { class: 'cls' + (c.enabled ? '' : ' off') + (c.inactive ? ' inactive' : ''), 'data-name': c.name },
