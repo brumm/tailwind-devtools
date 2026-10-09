@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><style>
+@layer theme, base, utilities;
+@layer theme { :root { --space-large: 24px; --edge-primary: #3b82f6; --tw-border-style: solid; } }
+@layer base { *, ::before, ::after { box-sizing: border-box; border: 0 solid; margin: 0; } }
+@layer utilities {
+  .flex { display: flex; }
+  .fixed { position: fixed; }
+  .z-50 { z-index: 50; }
+  .w-full { width: 100%; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .px-margin { padding-inline: 16px; }
+  .py-large { padding-block: var(--space-large); }
+  .border-b { border-bottom-style: var(--tw-border-style); border-bottom-width: 1px; }
+  .border-edge-primary { border-color: var(--edge-primary); }
+  .py-small { padding-block: 4px; }
+  .dark\:border-transparent:where(.dark-appearance, .dark-appearance *) { border-color: #0000; }
+  .hover\:bg-red { &:hover { @media (hover: hover) { background-color: red; } } }
+  .md\:flex-col { @media (width >= 48rem) { flex-direction: column; } }
+  .xl\:hidden { @media (width >= 5000px) { display: none; } }
+}
+</style></head>
+<body class="dark-appearance">
+<header id="target" class="border-b border-edge-primary dark:border-transparent fixed flex items-center justify-between px-margin py-large py-small w-full z-50 hover:bg-red md:flex-col xl:hidden" style="color: tomato; margin-top: 2px !important">hi</header>
+<div id="other" class="flex w-full">x</div>
+</body></html>

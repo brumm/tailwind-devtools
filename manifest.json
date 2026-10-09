@@ -1,0 +1,7 @@
+{
+  "manifest_version": 3,
+  "name": "Tailwind Styles",
+  "version": "0.1.0",
+  "description": "Elements sidebar pane: all class-based styles of the selected element in one view, plus a flat, always-visible class editor.",
+  "devtools_page": "devtools.html"
+}

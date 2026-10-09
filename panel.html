@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<div class="toolbar">
+  <input id="filter" type="search" placeholder="Filter" spellcheck="false" autocomplete="off">
+  <button id="styleSort" class="tbtn" title="Sort style declarations"></button>
+  <button id="hideVars" class="tbtn" title="Hide custom properties (--*)">--*</button>
+</div>
+
+<section id="classes">
+  <div class="section-head">
+    <button id="classToggle" class="twisty-head"><span class="twisty"></span><span id="classTitle">Classes</span></button>
+    <button id="classSort" class="tbtn" title="Sort classes"></button>
+  </div>
+  <div id="classBody">
+    <div class="add">
+      <input id="add" placeholder="Add new class" spellcheck="false" autocomplete="off" autocapitalize="off">
+      <ul id="suggest" hidden></ul>
+    </div>
+    <div id="classGrid" class="class-grid"></div>
+  </div>
+</section>
+
+<section id="styles"></section>
+
+<script src="inspected.js"></script>
+<script src="panel.js"></script>
+</body>
+</html>
