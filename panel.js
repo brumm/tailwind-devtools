@@ -15,7 +15,14 @@ const ui = {
   inactiveOpen: store.get('inactiveOpen', true),
 };
 
-document.documentElement.dataset.theme = chrome.devtools.panels.themeName === 'dark' ? 'dark' : 'light';
+// The vendored DevTools tokens pick light/dark and the platform fonts from classes on :root.
+const platform = /Mac/.test(navigator.platform) ? 'mac' : /Win/.test(navigator.platform) ? 'windows' : 'linux';
+const applyTheme = (name) => {
+  const root = document.documentElement;
+  root.className = `baseline-default platform-${platform}${name === 'dark' ? ' theme-with-dark-background' : ''}`;
+};
+applyTheme(chrome.devtools.panels.themeName);
+if (chrome.devtools.panels.setThemeChangeHandler) chrome.devtools.panels.setThemeChangeHandler(applyTheme);
 
 function h(tag, props, ...kids) {
   const el = document.createElement(tag);
