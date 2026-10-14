@@ -74,11 +74,11 @@ input[type="checkbox"] { accent-color: var(--accent); margin: 0; padding: 0; }
 #suggest li.active, #suggest li:hover { background: var(--accent); color: var(--bg); }
 
 .class-grid {
-  display: grid; padding: 0 6px 6px;
-  grid-template-columns: repeat(auto-fill, minmax(calc(var(--col, 20ch) + 46px), 1fr));
+  padding: 0 6px 6px;
+  columns: calc(var(--col, 20ch) + 46px); /* multi-column: entries flow top-to-bottom, then into the next column */
   column-gap: 8px;
 }
-.cls { display: flex; align-items: center; min-width: 0; border-radius: 2px; }
+.cls { display: flex; align-items: center; min-width: 0; border-radius: 2px; break-inside: avoid; }
 .cls:hover { background: var(--bg-hover); }
 .cls label { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; padding: 1px 4px; cursor: pointer; }
 .cname { font: 11px var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
