@@ -259,14 +259,36 @@ function commit() {
 }
 
 addInput.addEventListener('focus', () => { loadSuggestions(); updateSuggest(); });
-addInput.addEventListener('blur', () => { shown = []; suggestEl.hidden = true; });
+// The add field is hidden behind the + button in the section header.
+const addRow = $('#addRow'), addToggle = $('#addToggle');
+function setAddOpen(open) {
+  addRow.hidden = !open;
+  addToggle.setAttribute('aria-pressed', open);
+  if (open) {
+    if (!ui.classesOpen) { ui.classesOpen = true; store.set('classesOpen', true); render(); }
+    addInput.focus();
+  } else {
+    addInput.value = '';
+    if (document.activeElement === addInput) addInput.blur();
+  }
+}
+addToggle.addEventListener('mousedown', (ev) => ev.preventDefault()); // keep focus so blur doesn't close it before the click toggles
+addToggle.addEventListener('click', () => setAddOpen(addRow.hidden));
+
+addInput.addEventListener('blur', () => {
+  shown = []; suggestEl.hidden = true;
+  if (!addInput.value.trim()) setAddOpen(false);
+});
 addInput.addEventListener('input', () => { active = -1; loadSuggestions(); updateSuggest(); });
 addInput.addEventListener('keydown', (ev) => {
   if (ev.key === 'Enter') { ev.preventDefault(); commit(); }
   else if (ev.key === 'ArrowDown' && shown.length) { ev.preventDefault(); active = (active + 1) % shown.length; updateSuggest(); }
   else if (ev.key === 'ArrowUp' && shown.length) { ev.preventDefault(); active = (active - 1 + shown.length) % shown.length; updateSuggest(); }
   else if (ev.key === 'Tab' && shown.length) { ev.preventDefault(); pick(active >= 0 ? active : 0); }
-  else if (ev.key === 'Escape') { shown = []; active = -1; suggestEl.hidden = true; }
+  else if (ev.key === 'Escape') {
+    if (shown.length) { shown = []; active = -1; suggestEl.hidden = true; }
+    else setAddOpen(false);
+  }
 });
 
 // ---------- toolbar ----------
@@ -288,7 +310,7 @@ $('#hideVars').addEventListener('click', () => {
   render();
 });
 $('#classes .section-head').addEventListener('click', (ev) => {
-  if (ev.target.closest('#classSort')) return;
+  if (ev.target.closest('.head-actions')) return;
   ui.classesOpen = !ui.classesOpen;
   store.set('classesOpen', ui.classesOpen);
   render();

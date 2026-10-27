@@ -16,10 +16,13 @@
 <section id="classes">
   <div class="section-head">
     <button id="classToggle" class="twisty-head"><span class="twisty"></span><span id="classTitle">Classes</span></button>
-    <button id="classSort" class="tbtn" title="Sort classes"></button>
+    <div class="head-actions">
+      <button id="classSort" class="tbtn" title="Sort classes"></button>
+      <button id="addToggle" class="tbtn" title="Add class" aria-pressed="false">+</button>
+    </div>
   </div>
   <div id="classBody">
-    <div class="add">
+    <div id="addRow" class="add" hidden>
       <input id="add" placeholder="Add new class" spellcheck="false" autocomplete="off" autocapitalize="off">
       <ul id="suggest" hidden></ul>
     </div>

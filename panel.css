@@ -33,6 +33,8 @@ input[type="checkbox"] { accent-color: var(--sys-color-primary); margin: 0; padd
 .twisty.open::before { content: "\25BE"; }
 
 /* classes */
+.head-actions { display: flex; align-items: center; gap: 2px; }
+#addToggle { font-size: 14px; line-height: 1; padding: 1px 5px; }
 .add { position: relative; padding: 4px 6px; }
 .add input { width: 100%; font-family: var(--source-code-font-family); font-size: var(--source-code-font-size); }
 #suggest {
@@ -41,11 +43,12 @@ input[type="checkbox"] { accent-color: var(--sys-color-primary); margin: 0; padd
   background: var(--sys-color-surface3); border: 1px solid var(--sys-color-divider); box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
   font: var(--source-code-font-size) var(--source-code-font-family);
 }
+.add:not([hidden]) + .class-grid { padding-top: 0; }
 #suggest li { padding: 2px 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #suggest li.active, #suggest li:hover { background: var(--sys-color-tonal-container); color: var(--sys-color-on-surface); }
 
 .class-grid {
-  padding: 0 6px 6px;
+  padding: 6px;
   columns: calc(var(--col, 20ch) + 46px); /* multi-column: entries flow top-to-bottom, then into the next column */
   column-gap: 8px;
 }
