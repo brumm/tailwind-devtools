@@ -4,6 +4,8 @@ A Chrome DevTools extension that adds a **Tailwind** pane to the Elements sideba
 
 Built for Tailwind CSS v4 output (cascade layers, nested `@media` rules), but it works with any class-based CSS.
 
+![The Tailwind pane in the Elements sidebar](docs/screenshot.png)
+
 ## Features
 
 - All declarations that apply to the selected element, grouped by the class that produces them
